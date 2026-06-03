@@ -12,7 +12,4 @@ RUN mkdir -p data/models data/metrics
 
 EXPOSE 8000 8501
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
-    CMD curl -f http://localhost:${PORT:-8000}/api/v1/health || exit 1
-
 CMD ["sh", "-c", "exec bash start.sh ${SERVICE_MODE:-all}"]
