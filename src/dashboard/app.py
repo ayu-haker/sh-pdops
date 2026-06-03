@@ -19,12 +19,12 @@ API_BASE = os.environ.get(
 print(f"[DASHBOARD] API_BASE = {API_BASE}")
 
 st.set_page_config(
-    page_title="SH-PDOPS Dashboard",
+    page_title="SH-PDOPS: AI-Powered Self-Healing + Predictive DevOps Dashboard",
     page_icon="🔄",
     layout="wide",
 )
 
-st.title("SH-PDOPS: Self-Healing + Predictive DevOps System")
+st.title("SH-PDOPS: AI-Powered Self-Healing + Predictive DevOps System")
 st.markdown("Real-time monitoring, anomaly detection, prediction, and self-healing.")
 
 

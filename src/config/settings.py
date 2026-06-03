@@ -19,7 +19,7 @@ class HealerMode(str, Enum):
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
-    app_name: str = "SH-PDOPS"
+    app_name: str = "SH-PDOPS: AI-Powered Self-Healing + Predictive DevOps System"
     app_version: str = "1.0.0"
     debug: bool = True
 
