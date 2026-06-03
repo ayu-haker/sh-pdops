@@ -4,7 +4,7 @@ set -e
 # SH-PDOPS Railway entrypoint
 # Starts the API server (and optionally dashboard in same container)
 
-MODE="${1:-api}"
+MODE="${SERVICE_MODE:-${1:-api}}"
 
 case "$MODE" in
   api)
@@ -18,7 +18,7 @@ case "$MODE" in
   dashboard)
     echo "Starting SH-PDOPS Dashboard..."
     exec streamlit run src/dashboard/app.py \
-      --server.port "${DASHBOARD_PORT:-8501}" \
+      --server.port "${PORT:-8000}" \
       --server.address 0.0.0.0 \
       --server.headless true \
       --browser.gatherUsageStats false
