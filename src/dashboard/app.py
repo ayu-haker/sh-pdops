@@ -16,7 +16,7 @@ API_BASE = os.environ.get(
     f"https://{os.environ.get('RAILWAY_SERVICE_SH_PDOPS_URL', 'localhost:8000')}"
 ) + "/api/v1"
 
-print(f"[DASHBOARD] API_BASE = {API_BASE}", file=sys.stderr)
+print(f"[DASHBOARD] API_BASE = {API_BASE}")
 
 st.set_page_config(
     page_title="SH-PDOPS Dashboard",
@@ -35,9 +35,7 @@ def fetch_json(endpoint: str) -> dict | list:
         resp.raise_for_status()
         return resp.json()
     except Exception as e:
-        print(f"[DASHBOARD] fetch_json({endpoint}) failed: {type(e).__name__}: {e}", file=sys.stderr)
-        import traceback as _tb
-        _tb.print_exc(file=sys.stderr)
+        print(f"[DASHBOARD] fetch_json({endpoint}) failed: {type(e).__name__}: {e}")
         return []
 
 
@@ -48,7 +46,7 @@ def fetch_health() -> dict:
         resp.raise_for_status()
         return resp.json()
     except Exception as e:
-        print(f"[DASHBOARD] fetch_health() failed: {type(e).__name__}: {e}", file=sys.stderr)
+        print(f"[DASHBOARD] fetch_health() failed: {type(e).__name__}: {e}")
         return {}
 
 
@@ -59,7 +57,7 @@ def fetch_stats() -> dict:
         resp.raise_for_status()
         return resp.json()
     except Exception as e:
-        print(f"[DASHBOARD] fetch_stats() failed: {type(e).__name__}: {e}", file=sys.stderr)
+        print(f"[DASHBOARD] fetch_stats() failed: {type(e).__name__}: {e}")
         return {}
 
 
