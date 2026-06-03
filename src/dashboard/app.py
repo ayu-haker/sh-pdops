@@ -35,7 +35,9 @@ def fetch_json(endpoint: str) -> dict | list:
         resp.raise_for_status()
         return resp.json()
     except Exception as e:
-        print(f"[DASHBOARD] fetch_json({endpoint}) failed: {e}", file=sys.stderr)
+        print(f"[DASHBOARD] fetch_json({endpoint}) failed: {type(e).__name__}: {e}", file=sys.stderr)
+        import traceback as _tb
+        _tb.print_exc(file=sys.stderr)
         return []
 
 
@@ -46,7 +48,7 @@ def fetch_health() -> dict:
         resp.raise_for_status()
         return resp.json()
     except Exception as e:
-        print(f"[DASHBOARD] fetch_health() failed: {e}", file=sys.stderr)
+        print(f"[DASHBOARD] fetch_health() failed: {type(e).__name__}: {e}", file=sys.stderr)
         return {}
 
 
@@ -57,7 +59,7 @@ def fetch_stats() -> dict:
         resp.raise_for_status()
         return resp.json()
     except Exception as e:
-        print(f"[DASHBOARD] fetch_stats() failed: {e}", file=sys.stderr)
+        print(f"[DASHBOARD] fetch_stats() failed: {type(e).__name__}: {e}", file=sys.stderr)
         return {}
 
 
