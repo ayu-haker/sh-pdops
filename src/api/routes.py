@@ -16,7 +16,6 @@ from src.api.schemas import (
 )
 from src.common.types import AnomalyEvent, PredictionResult, RemediationAction
 from src.common.utils import compute_health_score
-from src.healer.groq_healer import GroqHealer
 
 router = APIRouter()
 
@@ -101,7 +100,7 @@ def _register_routes(app_state):
             uptime=uptime,
             version=app_state.get("version", "1.0.0"),
             healer_mode=healer.mode,
-            healer_type="groq_ai" if isinstance(healer, GroqHealer) else "local",
+            healer_type="groq_ai" if "GroqHealer" in type(healer).__name__ else "local",
             run_mode=engine.run_mode.value if hasattr(engine, "run_mode") else "unknown",
             metrics_collected=len(collector._buffer),
             anomalies_active=len(detector.get_active_anomalies()),
@@ -225,11 +224,11 @@ def _register_routes(app_state):
     async def get_healer_info():
         healer = app_state["healer"]
         info: Dict[str, Any] = {
-            "type": "groq_ai" if isinstance(healer, GroqHealer) else "local",
+            "type": "groq_ai" if "GroqHealer" in type(healer).__name__ else "local",
             "mode": healer.mode,
             "stats": healer.get_stats(),
         }
-        if isinstance(healer, GroqHealer):
+        if "GroqHealer" in type(healer).__name__:
             info["model"] = healer.model
             info["has_api_key"] = bool(healer.api_key)
             info["fallback_to_local"] = healer.fallback_to_local

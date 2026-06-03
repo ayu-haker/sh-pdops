@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+*.pyo
+*.bak
+.git/
+.gitignore
+README.md
+.env
+.venv/
+venv/
+data/
+tests/
+scripts/
+*.md
+*.db
+.vscode/
+.idea/
