@@ -16,6 +16,8 @@ API_BASE = os.environ.get(
     f"https://{os.environ.get('RAILWAY_SERVICE_SH_PDOPS_URL', 'localhost:8000')}"
 ) + "/api/v1"
 
+print(f"[DASHBOARD] API_BASE = {API_BASE}", file=sys.stderr)
+
 st.set_page_config(
     page_title="SH-PDOPS Dashboard",
     page_icon="🔄",
@@ -32,7 +34,8 @@ def fetch_json(endpoint: str) -> dict | list:
         resp = httpx.get(f"{API_BASE}{endpoint}", timeout=5)
         resp.raise_for_status()
         return resp.json()
-    except Exception:
+    except Exception as e:
+        print(f"[DASHBOARD] fetch_json({endpoint}) failed: {e}", file=sys.stderr)
         return []
 
 
@@ -42,7 +45,8 @@ def fetch_health() -> dict:
         resp = httpx.get(f"{API_BASE}/health", timeout=5)
         resp.raise_for_status()
         return resp.json()
-    except Exception:
+    except Exception as e:
+        print(f"[DASHBOARD] fetch_health() failed: {e}", file=sys.stderr)
         return {}
 
 
@@ -52,7 +56,8 @@ def fetch_stats() -> dict:
         resp = httpx.get(f"{API_BASE}/stats", timeout=5)
         resp.raise_for_status()
         return resp.json()
-    except Exception:
+    except Exception as e:
+        print(f"[DASHBOARD] fetch_stats() failed: {e}", file=sys.stderr)
         return {}
 
 
