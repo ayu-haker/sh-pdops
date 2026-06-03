@@ -1,0 +1,17 @@
+name: scale_up
+description: Scale up a service to handle increased load
+action_type: scale_up
+risk: low
+conditions:
+  metric_pattern: "cpu"
+  min_severity: "warning"
+timeout_seconds: 60
+steps:
+  - action: "kubectl scale deployment/{target} --replicas={current+2}"
+    timeout: 30
+  - action: "verify_scaling"
+    timeout: 30
+    expected: "ready"
+rollback_steps:
+  - action: "kubectl scale deployment/{target} --replicas={current}"
+    timeout: 30

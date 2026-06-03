@@ -1,0 +1,18 @@
+name: restart_service
+description: Restart a failing service to recover from transient errors
+action_type: restart
+risk: medium
+conditions:
+  metric_pattern: "error_rate"
+  min_severity: "warning"
+timeout_seconds: 30
+steps:
+  - action: "kubectl rollout restart deployment/{target}"
+    timeout: 20
+    retry: 2
+  - action: "wait_for_ready"
+    timeout: 30
+    expected: "running"
+rollback_steps:
+  - action: "kubectl rollout undo deployment/{target}"
+    timeout: 30

@@ -1,0 +1,22 @@
+name: dns_failover
+description: Fail over DNS traffic to a healthy region
+action_type: dns_failover
+risk: medium
+conditions:
+  metric_pattern: "latency"
+  min_severity: "critical"
+timeout_seconds: 120
+steps:
+  - action: "update_dns_record"
+    params:
+      ttl: 60
+      target: "{backup_endpoint}"
+    timeout: 30
+  - action: "verify_dns_propagation"
+    timeout: 60
+  - action: "health_check_new_endpoint"
+    timeout: 30
+    expected: "healthy"
+rollback_steps:
+  - action: "restore_dns_record"
+    timeout: 60

@@ -1,0 +1,17 @@
+name: rollback_deployment
+description: Roll back a deployment to the previous stable version
+action_type: rollback
+risk: high
+conditions:
+  metric_pattern: "error"
+  min_severity: "critical"
+timeout_seconds: 60
+steps:
+  - action: "kubectl rollout undo deployment/{target}"
+    timeout: 30
+  - action: "verify_deployment"
+    timeout: 30
+    expected: "healthy"
+rollback_steps:
+  - action: "kubectl rollout undo deployment/{target}"
+    timeout: 30
