@@ -19,41 +19,39 @@ from src.healer.playbooks import LocalRemediationEngine
 
 GROQ_API_BASE = "https://api.groq.com/openai/v1"
 
-ANOMALY_SYSTEM_PROMPT = """You are a senior DevOps SRE analyzing a system anomaly. Given the anomaly context, respond with a JSON object exactly in this format:
+ANOMALY_SYSTEM_PROMPT = (
+    "You are a senior DevOps SRE analyzing a system anomaly. "
+    "Given the anomaly context, respond with a JSON object exactly in this format:\n\n"
+    '{\n  "reasoning": "brief explanation",\n'
+    '  "action_type": "restart|scale_up|scale_down|rollback|dns_failover|clear_cache|kill_process|run_script|custom",\n'
+    '  "risk": "low|medium|high",\n'
+    '  "target_service": "service name",\n'
+    '  "playbook_name": "groq_ai_recommended"\n}\n\n'
+    "Rules:\n"
+    "- CPU/memory spikes: restart or scale_up\n"
+    "- Latency bursts: restart or clear_cache\n"
+    "- Error rate bursts: restart or rollback\n"
+    "- Traffic surges: scale_up\n"
+    "- Critical severity: use high risk\n"
+    "- Warning severity: use medium risk\n"
+    "- Info severity: use low risk or no action needed\n"
+    "Respond with ONLY the JSON object, no markdown, no explanation."
+)
 
-{
-  "reasoning": "brief explanation of what's happening",
-  "action_type": "restart|scale_up|scale_down|rollback|dns_failover|clear_cache|kill_process|run_script|custom",
-  "risk": "low|medium|high",
-  "target_service": "service name",
-  "playbook_name": "groq_ai_recommended"
-}
-
-Rules:
-- CPU/memory spikes → restart or scale_up
-- Latency bursts → restart or clear_cache
-- Error rate bursts → restart or rollback
-- Traffic surges → scale_up
-- Critical severity → use high risk
-- Warning severity → use medium risk
-- Info severity → use low risk or no action needed
-Respond with ONLY the JSON object, no markdown, no explanation."""
-
-PREDICTION_SYSTEM_PROMPT = """You are a senior DevOps SRE analyzing a predictive failure alert. Given the prediction context, respond with a JSON object exactly in this format:
-
-{
-  "reasoning": "brief explanation of the predicted failure",
-  "action_type": "restart|scale_up|scale_down|rollback|dns_failover|clear_cache|kill_process|run_script|custom",
-  "risk": "low|medium|high",
-  "target_service": "service name",
-  "playbook_name": "groq_ai_predictive"
-}
-
-Rules:
-- High failure probability (>0.9) → high risk, proactive restart or scale_up
-- Medium probability (0.7-0.9) → medium risk, scale_up or clear_cache
-- Low time to failure → higher risk action
-- Respond with ONLY the JSON object, no markdown, no explanation."""
+PREDICTION_SYSTEM_PROMPT = (
+    "You are a senior DevOps SRE analyzing a predictive failure alert. "
+    "Given the prediction context, respond with a JSON object exactly in this format:\n\n"
+    '{\n  "reasoning": "brief explanation",\n'
+    '  "action_type": "restart|scale_up|scale_down|rollback|dns_failover|clear_cache|kill_process|run_script|custom",\n'
+    '  "risk": "low|medium|high",\n'
+    '  "target_service": "service name",\n'
+    '  "playbook_name": "groq_ai_predictive"\n}\n\n'
+    "Rules:\n"
+    "- High failure probability (>0.9): high risk, proactive restart or scale_up\n"
+    "- Medium probability (0.7-0.9): medium risk, scale_up or clear_cache\n"
+    "- Low time to failure: higher risk action\n"
+    "- Respond with ONLY the JSON object, no markdown, no explanation."
+)
 
 
 class GroqHealer(RemediationEngine):
