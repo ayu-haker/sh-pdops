@@ -1,4 +1,5 @@
 import asyncio
+import os
 import sys
 from pathlib import Path
 
@@ -10,7 +11,10 @@ import httpx
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
-API_BASE = "http://localhost:8000"
+API_BASE = os.environ.get(
+    "API_URL",
+    f"https://{os.environ.get('RAILWAY_SERVICE_SH_PDOPS_URL', 'localhost:8000')}"
+)
 
 st.set_page_config(
     page_title="SH-PDOPS Dashboard",
