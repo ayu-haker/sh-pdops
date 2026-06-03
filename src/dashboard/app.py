@@ -31,7 +31,7 @@ st.markdown("Real-time monitoring, anomaly detection, prediction, and self-heali
 @st.cache_data(ttl=2)
 def fetch_json(endpoint: str) -> dict | list:
     try:
-        resp = httpx.get(f"{API_BASE}{endpoint}", timeout=5)
+        resp = httpx.get(f"{API_BASE}{endpoint}", timeout=10, verify=False)
         resp.raise_for_status()
         return resp.json()
     except Exception as e:
@@ -42,7 +42,7 @@ def fetch_json(endpoint: str) -> dict | list:
 @st.cache_data(ttl=2)
 def fetch_health() -> dict:
     try:
-        resp = httpx.get(f"{API_BASE}/health", timeout=5)
+        resp = httpx.get(f"{API_BASE}/health", timeout=10, verify=False)
         resp.raise_for_status()
         return resp.json()
     except Exception as e:
@@ -53,7 +53,7 @@ def fetch_health() -> dict:
 @st.cache_data(ttl=5)
 def fetch_stats() -> dict:
     try:
-        resp = httpx.get(f"{API_BASE}/stats", timeout=5)
+        resp = httpx.get(f"{API_BASE}/stats", timeout=10, verify=False)
         resp.raise_for_status()
         return resp.json()
     except Exception as e:
