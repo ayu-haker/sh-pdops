@@ -19,10 +19,10 @@ COPY . .
 RUN mkdir -p data/models data/metrics
 
 # Expose port
-EXPOSE 8501
+EXPOSE ${PORT:-8501}
 
 # Start Streamlit dashboard
 HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
-    CMD curl -f http://localhost:${DASHBOARD_PORT:-8501}/ || exit 1
+    CMD curl -f http://localhost:${PORT:-8501}/ || exit 1
 
-CMD ["sh", "-c", "streamlit run src/dashboard/app.py --server.port ${DASHBOARD_PORT:-8501} --server.address 0.0.0.0 --server.headless true --browser.gatherUsageStats false"]
+CMD ["sh", "-c", "streamlit run src/dashboard/app.py --server.port ${PORT:-8501} --server.address 0.0.0.0 --server.headless true --browser.gatherUsageStats false"]

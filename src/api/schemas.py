@@ -7,6 +7,7 @@ class HealthResponse(BaseModel):
     uptime: float
     version: str
     healer_mode: str
+    healer_type: str
     run_mode: str
     metrics_collected: int
     anomalies_active: int

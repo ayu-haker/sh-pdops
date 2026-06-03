@@ -7,6 +7,7 @@ from src.collector.simulator import SimulatedCollector
 from src.detector.statistical import StatisticalDetector
 from src.predictor.failure_prediction import FailurePredictor
 from src.healer.playbooks import LocalRemediationEngine
+from src.healer.groq_healer import GroqHealer
 from src.config.settings import settings, RunMode
 
 
@@ -22,10 +23,18 @@ class ShPdopsEngine:
             forecast_periods=settings.forecast_periods,
             threshold=settings.failure_probability_threshold,
         )
-        self.healer = LocalRemediationEngine(
-            mode=settings.healer_mode.value,
-            max_concurrent=settings.max_concurrent_actions,
-        )
+        if settings.groq_api_key and settings.healer_type in ("auto", "groq"):
+            self.healer = GroqHealer(
+                api_key=settings.groq_api_key,
+                model=settings.groq_model,
+                mode=settings.healer_mode.value,
+                max_concurrent=settings.max_concurrent_actions,
+            )
+        else:
+            self.healer = LocalRemediationEngine(
+                mode=settings.healer_mode.value,
+                max_concurrent=settings.max_concurrent_actions,
+            )
         self._running = False
         self._start_time: Optional[datetime] = None
         self._collection_interval = settings.collection_interval_seconds

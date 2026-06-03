@@ -60,6 +60,10 @@ class Settings(BaseSettings):
     failure_model_path: str = "data/models/failure_predictor.joblib"
     forecast_model_path: str = "data/models/forecast_model.joblib"
 
+    groq_api_key: Optional[str] = None
+    groq_model: str = "llama3-8b-8192"
+    healer_type: str = "auto"
+
 
 settings = Settings()
 
